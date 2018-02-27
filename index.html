@@ -6,19 +6,27 @@
     padding: 0;
     box-sizing: border-box;
   }
-
+  .gam-btn {
+    margin: 20px 0;
+  }
   .wanj {
     width: 100%;
     display: flex;
+    margin-top: 20px;
   }
 
   .wanj>div {
     width: 200px;
   }
 
+  .wanj-div>h2 {
+    display: flex;
+  }
+
   .wanj_span {
-    font-weight: 100;
-    font-size: 12px;
+    /* font-weight: 100; */
+    font-size: 14px;
+    color: red;
     display: none;
   }
 
@@ -35,23 +43,25 @@
 </head>
 
 <body>
-  <button id="rob" click='robMaster'>抢庄</button>
-  <button id="start" data-ng-click="start">发牌</button>
+  <div class="gam-btn">
+    <button id="rob" click='robMaster'>抢庄</button>
+    <button id="start" data-ng-click="start">发牌</button>
+  </div>
 
   <div class="wanj">
-    <div class="wanj-1">
+    <div class="wanj-div wanj-1">
       <h2>电脑1<span class="wanj_span isMaster">庄家</span></h2>
       <ul class="wanjUl"></ul>
     </div>
-    <div class="wanj-2">
+    <div class="wanj-div wanj-2">
       <h2>电脑2<span class="wanj_span isMaster">庄家</span></h2>
       <ul class="wanjUl"></ul>
     </div>
-    <div class="wanj-3">
+    <div class="wanj-div wanj-3">
       <h2>电脑3<span class="wanj_span isMaster">庄家</span></h2>
       <ul class="wanjUl"></ul>
     </div>
-    <div class="wanj-1">
+    <div class="wanj-div wanj-1">
       <h2>玩家1<span class="wanj_span isMaster">庄家</span></h2>
       <ul class="wanjUl"></ul>
     </div>
@@ -309,6 +319,7 @@
   let rob = document.querySelector('#rob')
   let start = document.querySelector('#start')
   let isMaster = document.querySelectorAll('.isMaster')
+  let wanjUl = document.querySelectorAll('.wanjUl')
   let dataArr = []
   // 数组乱序 (洗牌)
   function shuffle(arr) {
@@ -356,7 +367,6 @@
     })
     data.gamePlayer[i].master = true
     addClass(isMaster[i], 'block')
-    alert(`${data.gamePlayer[i].name}获得了庄家`)
   })
 
   start.addEventListener('click', () => {
@@ -375,6 +385,17 @@
       }
       return v
     })
+    
+    wanjUl.forEach((v, index) => {
+      let doms = document.createElement('div')
+      data.gamePlayer[index].card.forEach(i => {
+        let li = document.createElement('li')
+        li.innerHTML = `${i.type}--${i.count}`
+        doms.appendChild(li)
+      })
+      v.appendChild(doms)
+    })
+
   })
 
 </script>
