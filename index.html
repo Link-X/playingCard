@@ -6,12 +6,16 @@
     padding: 0;
     box-sizing: border-box;
   }
-  ul, li {
+
+  ul,
+  li {
     list-style: none;
   }
+
   .gam-btn {
     margin: 20px 0;
   }
+
   .wanj {
     width: 100%;
     display: flex;
@@ -32,7 +36,9 @@
     color: red;
     display: none;
   }
-
+  .wanjUl {
+    cursor: pointer;
+  }
   .block {
     display: block;
   }
@@ -66,264 +72,269 @@
     </div>
     <div class="wanj-div wanj-1">
       <h2>玩家1<span class="wanj_span isMaster">庄家</span></h2>
-      <ul class="wanjUl"></ul>
+      <ul id="selectCrd" class="wanjUl"></ul>
     </div>
   </div>
 </body>
 
 
 <script>
-  let data = {
-    "cord": [
-      {
-        "type": "maxKing",
-        "count": "大王"
-      },
-      {
-        "type": "minKing",
-        "count": "小王"
-      },
-      {
-        "type": "peach",
-        "count": "A"
-      },
-      {
-        "type": "peach",
-        "count": "2"
-      },
-      {
-        "type": "peach",
-        "count": "3"
-      },
-      {
-        "type": "peach",
-        "count": "4"
-      },
-      {
-        "type": "peach",
-        "count": "5"
-      },
-      {
-        "type": "peach",
-        "count": "6"
-      },
-      {
-        "type": "peach",
-        "count": "7"
-      },
-      {
-        "type": "peach",
-        "count": "8"
-      },
-      {
-        "type": "peach",
-        "count": "9"
-      },
-      {
-        "type": "peach",
-        "count": "10"
-      },
-      {
-        "type": "peach",
-        "count": "J"
-      },
-      {
-        "type": "peach",
-        "count": "Q"
-      },
-      {
-        "type": "peach",
-        "count": "K"
-      },
-      {
-        "type": "blackPeach",
-        "count": "A"
-      },
-      {
-        "type": "blackPeach",
-        "count": "2"
-      },
-      {
-        "type": "blackPeach",
-        "count": "3"
-      },
-      {
-        "type": "blackPeach",
-        "count": "4"
-      },
-      {
-        "type": "blackPeach",
-        "count": "5"
-      },
-      {
-        "type": "blackPeach",
-        "count": "6"
-      },
-      {
-        "type": "blackPeach",
-        "count": "7"
-      },
-      {
-        "type": "blackPeach",
-        "count": "8"
-      },
-      {
-        "type": "blackPeach",
-        "count": "9"
-      },
-      {
-        "type": "blackPeach",
-        "count": "10"
-      },
-      {
-        "type": "blackPeach",
-        "count": "J"
-      },
-      {
-        "type": "blackPeach",
-        "count": "Q"
-      },
-      {
-        "type": "blackPeach",
-        "count": "K"
-      },
-      {
-        "type": "plum",
-        "count": "A"
-      },
-      {
-        "type": "plum",
-        "count": "2"
-      },
-      {
-        "type": "plum",
-        "count": "3"
-      },
-      {
-        "type": "plum",
-        "count": "4"
-      },
-      {
-        "type": "plum",
-        "count": "5"
-      },
-      {
-        "type": "plum",
-        "count": "6"
-      },
-      {
-        "type": "plum",
-        "count": "7"
-      },
-      {
-        "type": "plum",
-        "count": "8"
-      },
-      {
-        "type": "blackPeach",
-        "count": "9"
-      },
-      {
-        "type": "plum",
-        "count": "10"
-      },
-      {
-        "type": "plum",
-        "count": "J"
-      },
-      {
-        "type": "plum",
-        "count": "Q"
-      },
-      {
-        "type": "plum",
-        "count": "K"
-      },
-      {
-        "type": "diamonds",
-        "count": "A"
-      },
-      {
-        "type": "diamonds",
-        "count": "2"
-      },
-      {
-        "type": "diamonds",
-        "count": "3"
-      },
-      {
-        "type": "diamonds",
-        "count": "4"
-      },
-      {
-        "type": "diamonds",
-        "count": "5"
-      },
-      {
-        "type": "diamonds",
-        "count": "6"
-      },
-      {
-        "type": "diamonds",
-        "count": "7"
-      },
-      {
-        "type": "diamonds",
-        "count": "8"
-      },
-      {
-        "type": "diamonds",
-        "count": "9"
-      },
-      {
-        "type": "diamonds",
-        "count": "10"
-      },
-      {
-        "type": "diamonds",
-        "count": "J"
-      },
-      {
-        "type": "diamonds",
-        "count": "Q"
-      },
-      {
-        "type": "diamonds",
-        "count": "K"
-      }
-    ],
-    "gamePlayer": [
-      {
-        "name": "电脑1",
-        "master": false,
-        "id": 1,
-        "card": []
-      },
-      {
-        "name": "电脑2",
-        "master": false,
-        "id": 2,
-        "card": []
-      },
-      {
-        "name": "电脑3",
-        "master": false,
-        "id": 3,
-        "card": []
-      },
-      {
-        "name": "玩家1",
-        "master": false,
-        "id": 4,
-        "card": []
-      },
-    ]
-  }
+  let data = {}
   let rob = document.querySelector('#rob')
   let start = document.querySelector('#start')
   let isMaster = document.querySelectorAll('.isMaster')
   let wanjUl = document.querySelectorAll('.wanjUl')
+  let selectCrd = document.querySelector('#selectCrd')
   let dataArr = []
+  function createData() {
+    data = {
+      "cord": [
+        {
+          "type": "maxKing",
+          "count": "大王"
+        },
+        {
+          "type": "minKing",
+          "count": "小王"
+        },
+        {
+          "type": "peach",
+          "count": "A"
+        },
+        {
+          "type": "peach",
+          "count": "2"
+        },
+        {
+          "type": "peach",
+          "count": "3"
+        },
+        {
+          "type": "peach",
+          "count": "4"
+        },
+        {
+          "type": "peach",
+          "count": "5"
+        },
+        {
+          "type": "peach",
+          "count": "6"
+        },
+        {
+          "type": "peach",
+          "count": "7"
+        },
+        {
+          "type": "peach",
+          "count": "8"
+        },
+        {
+          "type": "peach",
+          "count": "9"
+        },
+        {
+          "type": "peach",
+          "count": "10"
+        },
+        {
+          "type": "peach",
+          "count": "J"
+        },
+        {
+          "type": "peach",
+          "count": "Q"
+        },
+        {
+          "type": "peach",
+          "count": "K"
+        },
+        {
+          "type": "blackPeach",
+          "count": "A"
+        },
+        {
+          "type": "blackPeach",
+          "count": "2"
+        },
+        {
+          "type": "blackPeach",
+          "count": "3"
+        },
+        {
+          "type": "blackPeach",
+          "count": "4"
+        },
+        {
+          "type": "blackPeach",
+          "count": "5"
+        },
+        {
+          "type": "blackPeach",
+          "count": "6"
+        },
+        {
+          "type": "blackPeach",
+          "count": "7"
+        },
+        {
+          "type": "blackPeach",
+          "count": "8"
+        },
+        {
+          "type": "blackPeach",
+          "count": "9"
+        },
+        {
+          "type": "blackPeach",
+          "count": "10"
+        },
+        {
+          "type": "blackPeach",
+          "count": "J"
+        },
+        {
+          "type": "blackPeach",
+          "count": "Q"
+        },
+        {
+          "type": "blackPeach",
+          "count": "K"
+        },
+        {
+          "type": "plum",
+          "count": "A"
+        },
+        {
+          "type": "plum",
+          "count": "2"
+        },
+        {
+          "type": "plum",
+          "count": "3"
+        },
+        {
+          "type": "plum",
+          "count": "4"
+        },
+        {
+          "type": "plum",
+          "count": "5"
+        },
+        {
+          "type": "plum",
+          "count": "6"
+        },
+        {
+          "type": "plum",
+          "count": "7"
+        },
+        {
+          "type": "plum",
+          "count": "8"
+        },
+        {
+          "type": "blackPeach",
+          "count": "9"
+        },
+        {
+          "type": "plum",
+          "count": "10"
+        },
+        {
+          "type": "plum",
+          "count": "J"
+        },
+        {
+          "type": "plum",
+          "count": "Q"
+        },
+        {
+          "type": "plum",
+          "count": "K"
+        },
+        {
+          "type": "diamonds",
+          "count": "A"
+        },
+        {
+          "type": "diamonds",
+          "count": "2"
+        },
+        {
+          "type": "diamonds",
+          "count": "3"
+        },
+        {
+          "type": "diamonds",
+          "count": "4"
+        },
+        {
+          "type": "diamonds",
+          "count": "5"
+        },
+        {
+          "type": "diamonds",
+          "count": "6"
+        },
+        {
+          "type": "diamonds",
+          "count": "7"
+        },
+        {
+          "type": "diamonds",
+          "count": "8"
+        },
+        {
+          "type": "diamonds",
+          "count": "9"
+        },
+        {
+          "type": "diamonds",
+          "count": "10"
+        },
+        {
+          "type": "diamonds",
+          "count": "J"
+        },
+        {
+          "type": "diamonds",
+          "count": "Q"
+        },
+        {
+          "type": "diamonds",
+          "count": "K"
+        }
+      ],
+      "gamePlayer": [
+        {
+          "name": "电脑1",
+          "master": false,
+          "id": 1,
+          "card": []
+        },
+        {
+          "name": "电脑2",
+          "master": false,
+          "id": 2,
+          "card": []
+        },
+        {
+          "name": "电脑3",
+          "master": false,
+          "id": 3,
+          "card": []
+        },
+        {
+          "name": "玩家1",
+          "master": false,
+          "id": 4,
+          "card": []
+        },
+      ]
+    }
+  }
+  createData()
   // 数组乱序 (洗牌)
   function shuffle(arr) {
     let b = []
@@ -359,12 +370,10 @@
   }
 
   rob.addEventListener('click', () => {
+    // 抢庄
     dataArr = shuffle(data.cord)
     let i = Math.round(Math.random() * 3)
-    data.gamePlayer = data.gamePlayer.map(v => {
-      v.master = false
-      return v
-    })
+    createData()
     isMaster.forEach(v => {
       remClass(v, 'block')
     })
@@ -373,6 +382,7 @@
   })
 
   start.addEventListener('click', () => {
+    // 发牌
     let master = []
     master = data.gamePlayer.filter(v => {
       return v.master === true
@@ -388,19 +398,30 @@
       }
       return v
     })
-    
+    // 将牌加入dom
     wanjUl.forEach((v, index) => {
       let doms = document.createElement('div')
       data.gamePlayer[index].card.forEach(i => {
         let li = document.createElement('li')
         li.innerHTML = `${i.type}--${i.count}`
+        li.setAttribute('count', i.count)
+        li.setAttribute('types', i.type)
         doms.appendChild(li)
       })
+      v.innerHTML = ''
       v.appendChild(doms)
     })
 
   })
 
+  let selectDom = []
+  selectCrd.addEventListener('click', (e) => {
+    e.target.setAttribute('dis', 'true')
+    if (selectDom.length < 3) {
+     selectDom.push(e.target.getAttribute('count'))
+    }
+    console.log(selectDom)
+  })
 </script>
 
 </html>
