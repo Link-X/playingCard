@@ -36,11 +36,17 @@
     color: red;
     display: none;
   }
+
   .wanjUl {
     cursor: pointer;
   }
+
   .block {
     display: block;
+  }
+  .pitchOn {
+    background-color: red;
+    color: #fff;
   }
 </style>
 
@@ -77,8 +83,7 @@
   </div>
 </body>
 
-
-<script>
+<script type="module">
   let data = {}
   let rob = document.querySelector('#rob')
   let start = document.querySelector('#start')
@@ -86,6 +91,7 @@
   let wanjUl = document.querySelectorAll('.wanjUl')
   let selectCrd = document.querySelector('#selectCrd')
   let dataArr = []
+  let selectDom = []
   function createData() {
     data = {
       "cord": [
@@ -333,6 +339,7 @@
         },
       ]
     }
+    selectDom = []
   }
   createData()
   // 数组乱序 (洗牌)
@@ -344,6 +351,18 @@
       arr.splice(index, 1)
     }
     return b
+  }
+
+  function setCrad(name) {
+    let data = {
+      'maxKing': '大王',
+      'minKing': '小王',
+      'peach': '红桃',
+      'blackPeach': '黑桃',
+      'plum': '梅花',
+      'diamonds': '方块'
+    }
+    return data[name]
   }
 
   function hassClass(el, className) {
@@ -369,10 +388,24 @@
     el.className = rmCl.join(' ')
   }
 
+  function getIsSelect (selectDom, condition) {
+    let index = -1
+    selectDom.some((v, index1) =>{
+      if (v.count === condition.count && v.type === condition.type) {
+        index = index1
+        return
+      }
+    })
+    return index
+  }
+
   rob.addEventListener('click', () => {
     // 抢庄
     dataArr = shuffle(data.cord)
     let i = Math.round(Math.random() * 3)
+    wanjUl.forEach(v => {
+      v.innerHTML = ''
+    })
     createData()
     isMaster.forEach(v => {
       remClass(v, 'block')
@@ -394,7 +427,9 @@
     data.gamePlayer = data.gamePlayer.map(v => {
       while (v.card.length < 5) {
         let item = dataArr.pop()
-        v.card.push(item)
+        if (item.type !== 'maxKing' && item.type !== 'minKing') {
+          v.card.push(item)
+        }
       }
       return v
     })
@@ -403,7 +438,7 @@
       let doms = document.createElement('div')
       data.gamePlayer[index].card.forEach(i => {
         let li = document.createElement('li')
-        li.innerHTML = `${i.type}--${i.count}`
+        li.innerHTML = `${setCrad(i.type)}--${i.count}`
         li.setAttribute('count', i.count)
         li.setAttribute('types', i.type)
         doms.appendChild(li)
@@ -414,14 +449,25 @@
 
   })
 
-  let selectDom = []
   selectCrd.addEventListener('click', (e) => {
-    e.target.setAttribute('dis', 'true')
-    if (selectDom.length < 3) {
-     selectDom.push(e.target.getAttribute('count'))
+    // 选择卡牌
+    let data = {
+      count: e.target.getAttribute('count'),
+      type: e.target.getAttribute('types')
+    }
+    let selectIndex = getIsSelect(selectDom, data)
+    if (selectIndex === -1) {
+      if (selectDom.length < 3) {
+        addClass(e.target, 'pitchOn')
+        selectDom.push(data)
+     }
+    } else {
+      remClass(e.target, 'pitchOn')
+      selectDom.splice(selectIndex, 1)
     }
     console.log(selectDom)
   })
+
 </script>
 
 </html>
