@@ -48,6 +48,9 @@
     background-color: red;
     color: #fff;
   }
+  .result {
+    color: pink;
+  }
 </style>
 
 <head>
@@ -59,26 +62,31 @@
 
 <body>
   <div class="gam-btn">
-    <button id="rob" click='robMaster'>抢庄</button>
-    <button id="start" data-ng-click="start">发牌</button>
+    <button id="rob">抢庄</button>
+    <button id="start">发牌</button>
+    <button id="compute">计算</button>
   </div>
 
   <div class="wanj">
     <div class="wanj-div wanj-1">
       <h2>电脑1<span class="wanj_span isMaster">庄家</span></h2>
       <ul class="wanjUl"></ul>
+      <div class="result"></div>
     </div>
     <div class="wanj-div wanj-2">
       <h2>电脑2<span class="wanj_span isMaster">庄家</span></h2>
       <ul class="wanjUl"></ul>
+      <div class="result"></div>
     </div>
     <div class="wanj-div wanj-3">
       <h2>电脑3<span class="wanj_span isMaster">庄家</span></h2>
       <ul class="wanjUl"></ul>
+      <div class="result"></div>
     </div>
     <div class="wanj-div wanj-1">
       <h2>玩家1<span class="wanj_span isMaster">庄家</span></h2>
       <ul id="selectCrd" class="wanjUl"></ul>
+      <div class="result"></div>
     </div>
   </div>
 </body>
@@ -90,8 +98,35 @@
   let isMaster = document.querySelectorAll('.isMaster')
   let wanjUl = document.querySelectorAll('.wanjUl')
   let selectCrd = document.querySelector('#selectCrd')
+  let compute = document.querySelector('#compute')
+  let resultDom = document.querySelectorAll('.result')
   let dataArr = []
-  let selectDom = []
+  let computeCard = {
+    selectCard: [],
+    residueCard: []
+  }
+  let result = {
+    compute1: {
+      isNiu: false,
+      nui: 0,
+      maxCard: []
+    },
+    compute2: {
+      isNiu: false,
+      nui: 0,
+      maxCard: []
+    },
+    compute3: {
+      isNiu: false,
+      nui: 0,
+      maxCard: []
+    },
+    wanj: {
+      isNiu: false,
+      nui: 0,
+      maxCard: []
+    }
+  }
   function createData() {
     data = {
       "cord": [
@@ -339,7 +374,10 @@
         },
       ]
     }
-    selectDom = []
+    computeCard = {
+      selectCard: [],
+      residueCard: []
+    }
   }
   createData()
   // 数组乱序 (洗牌)
@@ -388,9 +426,10 @@
     el.className = rmCl.join(' ')
   }
 
-  function getIsSelect (selectDom, condition) {
+  function getIsSelect (selectCard, condition) {
     let index = -1
-    selectDom.some((v, index1) =>{
+    let arr = []
+    selectCard.some((v, index1) =>{
       if (v.count === condition.count && v.type === condition.type) {
         index = index1
         return
@@ -399,8 +438,50 @@
     return index
   }
 
+  function transitionCard (card) {
+    let data = {
+      'J': {
+        num: 10,
+        num2: 10
+      },
+      'Q': {
+        num: 10,
+        num2: 11
+      },
+      'K': {
+        num: 10,
+        num2: 12
+      },
+      'A': {
+        num: 1,
+        num2: 1
+      },
+    }
+    let data2 = { 
+      num: +card,
+      num2: +card
+    }
+    return data[card] || data2
+  }
+  function setCard () {
+    let arr = data.gamePlayer[3].card.concat([])
+    let ii = arr.length - 1
+    while (ii >= 0) {
+      computeCard.selectCard.forEach(v => {
+        try {
+          if (v.count === arr[ii].count && v.type === arr[ii].type) {
+            arr.splice(ii, 1)
+         }
+        } catch (err) {
+          console.log('错误')
+        }
+      })
+      ii--
+    }
+    computeCard.residueCard = arr
+  }
+
   rob.addEventListener('click', () => {
-    // 抢庄
     dataArr = shuffle(data.cord)
     let i = Math.round(Math.random() * 3)
     wanjUl.forEach(v => {
@@ -455,19 +536,95 @@
       count: e.target.getAttribute('count'),
       type: e.target.getAttribute('types')
     }
-    let selectIndex = getIsSelect(selectDom, data)
+    let selectIndex = getIsSelect(computeCard.selectCard, data)
     if (selectIndex === -1) {
-      if (selectDom.length < 3) {
+      if (computeCard.selectCard.length < 3) {
         addClass(e.target, 'pitchOn')
-        selectDom.push(data)
+        computeCard.selectCard.push(data)
      }
     } else {
       remClass(e.target, 'pitchOn')
-      selectDom.splice(selectIndex, 1)
+      computeCard.selectCard.splice(selectIndex, 1)
     }
-    console.log(selectDom)
   })
 
+
+  function getSum (data) {
+    let sum = 0
+    data.forEach(v => {
+      let sub = transitionCard(v.count)
+      sum+= sub.num
+    })
+    return sum
+  }
+
+  function getMaxCard (data) {
+    let cardType = {
+      'blackPeach': 4,
+      'peach': 3,
+      'plum': 2,
+      'diamonds': 1
+    }
+    let maxObj = {}
+    let max = {
+      dot: 0,
+      type: 0
+    }
+    data.forEach(v => {
+      let sub = transitionCard(v.count)
+      if (max.dot <= sub.num2) {
+        maxObj = v
+        max.dot = sub.num2
+        // 判断色块大小
+        if (max.dot === sub.num2 && max.type < cardType[v.type]) {
+          maxObj = v
+        }
+        max.type = cardType[v.type]
+        
+      }
+    })
+    return maxObj
+  }
+
+  function cardArithmetic (cardData, wanj) {
+    let arr = cardData.selectCard.concat(cardData.residueCard)
+    let sum1 = getSum(cardData.selectCard)
+    if (sum1%10 === 0) {
+      let sum2 = getSum(cardData.residueCard)
+      let niu = sum2%10
+      result[wanj] = {
+        isNiu: true,
+        niu: niu,
+        maxCard: getMaxCard(arr)
+      }
+    } else {
+      result[wanj] = {
+        isNiu: false,
+        niu: 0,
+        maxCard: getMaxCard(arr)
+      }
+    }
+  }
+
+  compute.addEventListener('click', (e) => {
+    if (computeCard.selectCard.length < 3) {
+      alert('请选中三张牌')
+    }else {
+      setCard()
+      cardArithmetic(computeCard, 'wanj')
+      if (result.wanj.isNiu) {
+        let nius = result.wanj.niu === 0 ? '牛' : result.wanj.niu
+        resultDom[3].innerHTML = `<p>有牛</p><p>牛${nius}</p><p>最大牌:${setCrad(result.wanj.maxCard.type)}  ${result.wanj.maxCard.count}</p>`
+      } else {
+        resultDom[3].innerHTML = `<p>无牛</p><p>最大牌:${setCrad(result.wanj.maxCard.type)}  ${result.wanj.maxCard.count}</p>`
+      }
+      // cardArithmetic(data.gamePlayer[0], 'compute1')
+      // cardArithmetic(data.gamePlayer[1], 'compute2')
+      // cardArithmetic(data.gamePlayer[2], 'compute3')
+      console.log(result)
+    }
+
+  })
 </script>
 
 </html>
