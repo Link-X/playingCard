@@ -105,28 +105,7 @@
     selectCard: [],
     residueCard: []
   }
-  let result = {
-    compute1: {
-      isNiu: false,
-      nui: 0,
-      maxCard: []
-    },
-    compute2: {
-      isNiu: false,
-      nui: 0,
-      maxCard: []
-    },
-    compute3: {
-      isNiu: false,
-      nui: 0,
-      maxCard: []
-    },
-    wanj: {
-      isNiu: false,
-      nui: 0,
-      maxCard: []
-    }
-  }
+  let result = {}
   function createData() {
     data = {
       "cord": [
@@ -378,6 +357,28 @@
       selectCard: [],
       residueCard: []
     }
+    result = {
+      compute1: {
+        isNiu: false,
+        nui: 0,
+        maxCard: []
+      },
+      compute2: {
+        isNiu: false,
+        nui: 0,
+        maxCard: []
+      },
+      compute3: {
+        isNiu: false,
+        nui: 0,
+        maxCard: []
+      },
+      wanj: {
+        isNiu: false,
+        nui: 0,
+        maxCard: []
+      }
+    }
   }
   createData()
   // 数组乱序 (洗牌)
@@ -442,15 +443,15 @@
     let data = {
       'J': {
         num: 10,
-        num2: 10
+        num2: 11
       },
       'Q': {
         num: 10,
-        num2: 11
+        num2: 12
       },
       'K': {
         num: 10,
-        num2: 12
+        num2: 13
       },
       'A': {
         num: 1,
@@ -486,6 +487,9 @@
     let i = Math.round(Math.random() * 3)
     wanjUl.forEach(v => {
       v.innerHTML = ''
+    })
+    resultDom.forEach(e => {
+      e.innerHTML = ''
     })
     createData()
     isMaster.forEach(v => {
@@ -558,7 +562,7 @@
     return sum
   }
 
-  function getMaxCard (data) {
+  function getMaxCard (cardData) {
     let cardType = {
       'blackPeach': 4,
       'peach': 3,
@@ -566,21 +570,17 @@
       'diamonds': 1
     }
     let maxObj = {}
-    let max = {
-      dot: 0,
-      type: 0
-    }
-    data.forEach(v => {
+    let max = 0
+    cardData.forEach(v => {
       let sub = transitionCard(v.count)
-      if (max.dot <= sub.num2) {
+      if (max < sub.num2) {
         maxObj = v
-        max.dot = sub.num2
-        // 判断色块大小
-        if (max.dot === sub.num2 && max.type < cardType[v.type]) {
-          maxObj = v
-        }
-        max.type = cardType[v.type]
-        
+        max = sub.num2
+      }
+    })
+    cardData.forEach(v => {
+      if (maxObj.count === v.count && cardType[maxObj.type] < cardType[v.type]) {
+        maxObj = v
       }
     })
     return maxObj
@@ -621,7 +621,7 @@
       // cardArithmetic(data.gamePlayer[0], 'compute1')
       // cardArithmetic(data.gamePlayer[1], 'compute2')
       // cardArithmetic(data.gamePlayer[2], 'compute3')
-      console.log(result)
+      // console.log(result)
     }
 
   })
