@@ -51,16 +51,35 @@
   .result {
     color: pink;
   }
+  #div1 {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    cursor: pointer;
+    border: 1px solid #333;
+    text-align: center;
+    /* line-height: 200px; */
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 50px;
+    right: 50px;
+  }
 </style>
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>牛牛</title>
 </head>
 
 <body>
+  <h1 style="text-align: center">牛牛大战</h1>
+  <div id="div1">
+    剩余积分: 1000
+  </div>
   <div class="gam-btn">
     <button id="rob">抢庄</button>
     <button id="start">发牌</button>
@@ -534,7 +553,6 @@
       })
       v.innerHTML = '<div>'+html+'</div>'
     })
-
   })
 
   selectCrd.addEventListener('click', (e) => {
@@ -667,6 +685,41 @@
     }
 
   })
+
+  window.onload = function(){
+　　var div1 = document.getElementById("div1");
+    let winW = document.documentElement.clientWidth - div1.offsetWidth
+    let winH = document.documentElement.clientHeight - div1.offsetHeight
+　　div1.onmousedown = function(ev){
+  　　　　var oevent = ev || event;
+  　　　　var distanceX = oevent.clientX - div1.offsetLeft;
+  　　　　var distanceY = oevent.clientY - div1.offsetTop;
+  　　　　document.onmousemove = function(ev){
+  　　　　　　var oevent = ev || event;
+             let Xs = oevent.clientX - distanceX
+             let Ys = oevent.clientY - distanceY
+             if (Xs < 0) {
+               Xs = 0
+             } else if (Xs > winW){
+  　　　　　 　div1.style.left = winW + 'px';
+             } else {
+               div1.style.left = oevent.clientX - distanceX + 'px';
+             }
+             if (Ys < 0) {
+               Ys = 0
+             } else if (Ys > winH) {
+               div1.style.top = winH + 'px';
+             } else {
+               div1.style.top = oevent.clientY - distanceY + 'px'; 
+             }
+  　　　　};
+  　　　　document.onmouseup = function(){
+  　　　　　　document.onmousemove = null;
+  　　　　　　document.onmouseup = null;
+  　　　　};
+        ev.preventDefault()
+      }
+  }
 </script>
 
 </html>
