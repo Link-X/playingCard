@@ -1,78 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  ul,
-  li {
-    list-style: none;
-  }
-
-  .gam-btn {
-    margin: 20px 0;
-  }
-
-  .wanj {
-    width: 100%;
-    display: flex;
-    margin-top: 20px;
-  }
-
-  .wanj>div {
-    width: 200px;
-  }
-
-  .wanj-div>h2 {
-    display: flex;
-  }
-
-  .wanj_span {
-    /* font-weight: 100; */
-    font-size: 14px;
-    color: red;
-    display: none;
-  }
-
-  .wanjUl {
-    cursor: pointer;
-  }
-
-  .block {
-    display: block;
-  }
-  .pitchOn {
-    background-color: red;
-    color: #fff;
-  }
-  .result {
-    color: pink;
-  }
-  #div1 {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    cursor: pointer;
-    border: 1px solid #333;
-    text-align: center;
-    /* line-height: 200px; */
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    bottom: 50px;
-    right: 50px;
-  }
-</style>
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>牛牛</title>
+  <title>ddddnnnnn</title>
+  <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
@@ -88,30 +22,38 @@
 
   <div class="wanj">
     <div class="wanj-div wanj-1">
-      <h2>电脑1<span class="wanj_span isMaster">庄家</span></h2>
+      <h2>电脑1
+        <span class="wanj_span isMaster">庄家</span>
+      </h2>
       <ul class="wanjUl"></ul>
       <div class="result"></div>
     </div>
     <div class="wanj-div wanj-2">
-      <h2>电脑2<span class="wanj_span isMaster">庄家</span></h2>
+      <h2>电脑2
+        <span class="wanj_span isMaster">庄家</span>
+      </h2>
       <ul class="wanjUl"></ul>
       <div class="result"></div>
     </div>
     <div class="wanj-div wanj-3">
-      <h2>电脑3<span class="wanj_span isMaster">庄家</span></h2>
+      <h2>电脑3
+        <span class="wanj_span isMaster">庄家</span>
+      </h2>
       <ul class="wanjUl"></ul>
       <div class="result"></div>
     </div>
     <div class="wanj-div wanj-1">
-      <h2>玩家1<span class="wanj_span isMaster">庄家</span></h2>
+      <h2>玩家1
+        <span class="wanj_span isMaster">庄家</span>
+      </h2>
       <ul id="selectCrd" class="wanjUl"></ul>
       <div class="result"></div>
     </div>
   </div>
 </body>
-
+<script src="./data/data.js"></script>
 <script type="module">
-  let data = {}
+  let { data, result } = createData()
   let rob = document.querySelector('#rob')
   let start = document.querySelector('#start')
   let isMaster = document.querySelectorAll('.isMaster')
@@ -120,378 +62,8 @@
   let compute = document.querySelector('#compute')
   let resultDom = document.querySelectorAll('.result')
   let dataArr = []
-  let result = {}
-  function createData() {
-    data = {
-      "cord": [
-        {
-          "type": "maxKing",
-          "count": "大王"
-        },
-        {
-          "type": "minKing",
-          "count": "小王"
-        },
-        {
-          "type": "peach",
-          "count": "A"
-        },
-        {
-          "type": "peach",
-          "count": "2"
-        },
-        {
-          "type": "peach",
-          "count": "3"
-        },
-        {
-          "type": "peach",
-          "count": "4"
-        },
-        {
-          "type": "peach",
-          "count": "5"
-        },
-        {
-          "type": "peach",
-          "count": "6"
-        },
-        {
-          "type": "peach",
-          "count": "7"
-        },
-        {
-          "type": "peach",
-          "count": "8"
-        },
-        {
-          "type": "peach",
-          "count": "9"
-        },
-        {
-          "type": "peach",
-          "count": "10"
-        },
-        {
-          "type": "peach",
-          "count": "J"
-        },
-        {
-          "type": "peach",
-          "count": "Q"
-        },
-        {
-          "type": "peach",
-          "count": "K"
-        },
-        {
-          "type": "blackPeach",
-          "count": "A"
-        },
-        {
-          "type": "blackPeach",
-          "count": "2"
-        },
-        {
-          "type": "blackPeach",
-          "count": "3"
-        },
-        {
-          "type": "blackPeach",
-          "count": "4"
-        },
-        {
-          "type": "blackPeach",
-          "count": "5"
-        },
-        {
-          "type": "blackPeach",
-          "count": "6"
-        },
-        {
-          "type": "blackPeach",
-          "count": "7"
-        },
-        {
-          "type": "blackPeach",
-          "count": "8"
-        },
-        {
-          "type": "blackPeach",
-          "count": "9"
-        },
-        {
-          "type": "blackPeach",
-          "count": "10"
-        },
-        {
-          "type": "blackPeach",
-          "count": "J"
-        },
-        {
-          "type": "blackPeach",
-          "count": "Q"
-        },
-        {
-          "type": "blackPeach",
-          "count": "K"
-        },
-        {
-          "type": "plum",
-          "count": "A"
-        },
-        {
-          "type": "plum",
-          "count": "2"
-        },
-        {
-          "type": "plum",
-          "count": "3"
-        },
-        {
-          "type": "plum",
-          "count": "4"
-        },
-        {
-          "type": "plum",
-          "count": "5"
-        },
-        {
-          "type": "plum",
-          "count": "6"
-        },
-        {
-          "type": "plum",
-          "count": "7"
-        },
-        {
-          "type": "plum",
-          "count": "8"
-        },
-        {
-          "type": "blackPeach",
-          "count": "9"
-        },
-        {
-          "type": "plum",
-          "count": "10"
-        },
-        {
-          "type": "plum",
-          "count": "J"
-        },
-        {
-          "type": "plum",
-          "count": "Q"
-        },
-        {
-          "type": "plum",
-          "count": "K"
-        },
-        {
-          "type": "diamonds",
-          "count": "A"
-        },
-        {
-          "type": "diamonds",
-          "count": "2"
-        },
-        {
-          "type": "diamonds",
-          "count": "3"
-        },
-        {
-          "type": "diamonds",
-          "count": "4"
-        },
-        {
-          "type": "diamonds",
-          "count": "5"
-        },
-        {
-          "type": "diamonds",
-          "count": "6"
-        },
-        {
-          "type": "diamonds",
-          "count": "7"
-        },
-        {
-          "type": "diamonds",
-          "count": "8"
-        },
-        {
-          "type": "diamonds",
-          "count": "9"
-        },
-        {
-          "type": "diamonds",
-          "count": "10"
-        },
-        {
-          "type": "diamonds",
-          "count": "J"
-        },
-        {
-          "type": "diamonds",
-          "count": "Q"
-        },
-        {
-          "type": "diamonds",
-          "count": "K"
-        }
-      ],
-      "gamePlayer": [
-        {
-          "name": "电脑1",
-          "master": false,
-          "id": 1,
-          "card": [],
-          "computeCard": {
-            "selectCard": [],
-            "residueCard": []
-          }
-        },
-        {
-          "name": "电脑2",
-          "master": false,
-          "id": 2,
-          "card": [],
-          "computeCard": {
-            "selectCard": [],
-            "residueCard": []
-          }
-        },
-        {
-          "name": "电脑3",
-          "master": false,
-          "id": 3,
-          "card": [],
-          "computeCard": {
-            "selectCard": [],
-            "residueCard": []
-          }
-        },
-        {
-          "name": "玩家1",
-          "master": false,
-          "id": 4,
-          "card": [],
-          "computeCard": {
-            "selectCard": [],
-            "residueCard": []
-          }
-        },
-      ]
-    }
-    result = {
-      compute1: {
-        isNiu: false,
-        nui: 0,
-        maxCard: []
-      },
-      compute2: {
-        isNiu: false,
-        nui: 0,
-        maxCard: []
-      },
-      compute3: {
-        isNiu: false,
-        nui: 0,
-        maxCard: []
-      },
-      wanj: {
-        isNiu: false,
-        nui: 0,
-        maxCard: []
-      }
-    }
-  }
-  createData()
-  // 数组乱序 (洗牌)
-  function shuffle(arr) {
-    let b = []
-    while (arr.length > 0) {
-      let index = parseInt(Math.random() * (arr.length - 1))
-      b.push(arr[index])
-      arr.splice(index, 1)
-    }
-    return b
-  }
 
-  function setCrad(name) {
-    let data = {
-      'maxKing': '大王',
-      'minKing': '小王',
-      'peach': '红桃',
-      'blackPeach': '黑桃',
-      'plum': '梅花',
-      'diamonds': '方块'
-    }
-    return data[name]
-  }
-
-  function hassClass(el, className) {
-    let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
-    return reg.test(el.className)
-  }
-
-  function addClass(el, className) {
-    if (hassClass(el, className)) {
-      return
-    }
-    let newClass = el.className.split(' ')
-    newClass.push(className)
-    el.className = newClass.join(' ')
-  }
-
-  function remClass(el, className) {
-    if (!hassClass(el, className)) {
-      return
-    }
-    let rmCl = el.className.split(' ')
-    rmCl.splice(rmCl.indexOf(className), 1)
-    el.className = rmCl.join(' ')
-  }
-
-  function getIsSelect (selectCard, condition) {
-    let index = -1
-    let arr = []
-    selectCard.some((v, index1) =>{
-      if (v.count === condition.count && v.type === condition.type) {
-        index = index1
-        return
-      }
-    })
-    return index
-  }
-
-  function transitionCard (card) {
-    let data = {
-      'J': {
-        num: 10,
-        num2: 11
-      },
-      'Q': {
-        num: 10,
-        num2: 12
-      },
-      'K': {
-        num: 10,
-        num2: 13
-      },
-      'A': {
-        num: 1,
-        num2: 1
-      },
-    }
-    let data2 = { 
-      num: +card,
-      num2: +card
-    }
-    return data[card] || data2
-  }
-  function setCard (cardData) {
+  function setCard(cardData) {
     let arr = data.gamePlayer[3].card.concat([])
     let ii = arr.length - 1
     while (ii >= 0) {
@@ -499,7 +71,7 @@
         try {
           if (v.count === arr[ii].count && v.type === arr[ii].type) {
             arr.splice(ii, 1)
-         }
+          }
         } catch (err) {
           console.log(' ')
         }
@@ -518,7 +90,9 @@
     resultDom.forEach(e => {
       e.innerHTML = ''
     })
-    createData()
+    const resetData = createData()
+    data = resetData.data
+    result = resetData.result
     isMaster.forEach(v => {
       remClass(v, 'block')
     })
@@ -528,11 +102,10 @@
 
   start.addEventListener('click', () => {
     // 发牌
-    let master = []
-    master = data.gamePlayer.filter(v => {
+    let master = data.gamePlayer.some(v => {
       return v.master === true
     })
-    if (!master.length) {
+    if (!master) {
       alert('请先抢庄家')
       return
     }
@@ -551,41 +124,37 @@
       data.gamePlayer[index].card.forEach(i => {
         html += `<li count=${i.count} types=${i.type}>${setCrad(i.type)}--${i.count}</li>`
       })
-      v.innerHTML = '<div>'+html+'</div>'
+      v.innerHTML = '<div>' + html + '</div>'
     })
   })
 
   selectCrd.addEventListener('click', (e) => {
     // 选择卡牌
-    let domCardData = {
+    let compCard = data.gamePlayer[3].computeCard
+    const domCardData = {
       count: e.target.getAttribute('count'),
       type: e.target.getAttribute('types')
     }
-    let compCard = data.gamePlayer[3].computeCard
-    let selectIndex = getIsSelect(compCard.selectCard, domCardData)
-    if (selectIndex === -1) {
-      if (compCard.selectCard.length < 3) {
-        addClass(e.target, 'pitchOn')
-        compCard.selectCard.push(domCardData)
-     }
-    } else {
-      remClass(e.target, 'pitchOn')
-      compCard.selectCard.splice(selectIndex, 1)
+    const selectIndex = getIsSelect(compCard.selectCard, domCardData)
+    if (selectIndex === -1 && compCard.selectCard.length < 3) {
+      compCard.selectCard.push(domCardData)
+      addClass(e.target, 'pitchOn')
+      return
     }
+    compCard.selectCard.splice(selectIndex, 1)
+    remClass(e.target, 'pitchOn')
   })
 
-
-  function getSum (data) {
-    let sum = 0
-    data.forEach(v => {
-      let sub = transitionCard(v.count)
-      sum+= sub.num
+  function getIsSelect(selectCard, condition) {
+    // 寻找是否已经选中这张牌
+    return selectCard.findIndex(v => {
+      return v.count === condition.count && v.type === condition.type
     })
-    return sum
   }
 
-  function getMaxCard (cardData) {
-    let cardType = {
+  function getMaxCard(cardData) {
+    // 找出当前卡牌最大的
+    const cardType = {
       'blackPeach': 4,
       'peach': 3,
       'plum': 2,
@@ -607,7 +176,8 @@
     })
     return maxObj
   }
-  function cardArithmetic (cardData) {
+
+  function cardArithmetic(cardData) {
     let arr = cardData.selectCard.concat(cardData.residueCard)
     let sum1 = getSum(cardData.selectCard)
     let aiData = {
@@ -615,9 +185,9 @@
       niu: 0,
       maxCard: {}
     }
-    if (sum1%10 === 0) {
+    if (sum1 % 10 === 0) {
       let sum2 = getSum(cardData.residueCard)
-      let niu = sum2%10
+      let niu = sum2 % 10
       aiData = {
         isNiu: true,
         niu: niu,
@@ -659,7 +229,7 @@
   //   com()
   //   console.log(dg2)
   // }
-  function bid (fn, cent) {
+  function bid(fn, cent) {
     return function () {
       return fn.apply(cent, arguments)
     }
@@ -668,7 +238,7 @@
     let wanjCard = data.gamePlayer[3].computeCard
     if (wanjCard.selectCard.length < 3) {
       alert('请选中三张牌')
-    }else {
+    } else {
       setCard(wanjCard)
       result.wanj = cardArithmetic(wanjCard)
       if (result.wanj.isNiu) {
@@ -677,48 +247,48 @@
       } else {
         resultDom[3].innerHTML = `<p>无牛</p><p>最大牌:${setCrad(result.wanj.maxCard.type)}  ${result.wanj.maxCard.count}</p>`
       }
-      
+
       // niuniuArithmetic(data.gamePlayer[0].card)
-      
+
       // console.log(data)
       // console.log(result)
     }
 
   })
 
-  window.onload = function(){
-　　var div1 = document.getElementById("div1");
+  window.onload = function () {
+    var div1 = document.getElementById("div1");
     let winW = document.documentElement.clientWidth - div1.offsetWidth
     let winH = document.documentElement.clientHeight - div1.offsetHeight
-　　div1.onmousedown = function(ev){
-  　　　　var oevent = ev || event;
-  　　　　var distanceX = oevent.clientX - div1.offsetLeft;
-  　　　　var distanceY = oevent.clientY - div1.offsetTop;
-  　　　　document.onmousemove = function(ev){
-  　　　　　　var oevent = ev || event;
-             let Xs = oevent.clientX - distanceX
-             let Ys = oevent.clientY - distanceY
-             if (Xs < 0) {
-               Xs = 0
-             } else if (Xs > winW){
-  　　　　　 　div1.style.left = winW + 'px';
-             } else {
-               div1.style.left = oevent.clientX - distanceX + 'px';
-             }
-             if (Ys < 0) {
-               Ys = 0
-             } else if (Ys > winH) {
-               div1.style.top = winH + 'px';
-             } else {
-               div1.style.top = oevent.clientY - distanceY + 'px'; 
-             }
-  　　　　};
-  　　　　document.onmouseup = function(){
-  　　　　　　document.onmousemove = null;
-  　　　　　　document.onmouseup = null;
-  　　　　};
-        ev.preventDefault()
-      }
+    div1.onmousedown = function (ev) {
+      var oevent = ev || event;
+      var distanceX = oevent.clientX - div1.offsetLeft;
+      var distanceY = oevent.clientY - div1.offsetTop;
+      document.onmousemove = function (ev) {
+        var oevent = ev || event;
+        let Xs = oevent.clientX - distanceX
+        let Ys = oevent.clientY - distanceY
+        if (Xs < 0) {
+          Xs = 0
+        } else if (Xs > winW) {
+          div1.style.left = winW + 'px';
+        } else {
+          div1.style.left = oevent.clientX - distanceX + 'px';
+        }
+        if (Ys < 0) {
+          Ys = 0
+        } else if (Ys > winH) {
+          div1.style.top = winH + 'px';
+        } else {
+          div1.style.top = oevent.clientY - distanceY + 'px';
+        }
+      };
+      document.onmouseup = function () {
+        document.onmousemove = null;
+        document.onmouseup = null;
+      };
+      ev.preventDefault()
+    }
   }
 </script>
 
