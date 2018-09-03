@@ -130,7 +130,6 @@
 
   selectCrd.addEventListener('click', (e) => {
     // 选择卡牌
-
     let compCard = data.gamePlayer[3].computeCard
     const domCardData = {
       count: e.target.getAttribute('count'),
@@ -140,10 +139,14 @@
     if (selectIndex === -1 && compCard.selectCard.length < 3) {
       compCard.selectCard.push(domCardData)
       addClass(e.target, 'pitchOn')
+      if (compCard.selectCard.length === 3) {
+        sumNiu()
+      }
       return
+    } else if (selectIndex !== -1) {
+      compCard.selectCard.splice(selectIndex, 1)
+      remClass(e.target, 'pitchOn')
     }
-    compCard.selectCard.splice(selectIndex, 1)
-    remClass(e.target, 'pitchOn')
   })
 
   function getIsSelect(selectCard, condition) {
@@ -235,7 +238,7 @@
       return fn.apply(cent, arguments)
     }
   }
-  compute.addEventListener('click', (e) => {
+  function sumNiu() {
     let wanjCard = data.gamePlayer[3].computeCard
     if (wanjCard.selectCard.length < 3) {
       alert('请选中三张牌')
@@ -254,8 +257,8 @@
       // console.log(data)
       // console.log(result)
     }
-
-  })
+  }
+  compute.addEventListener('click', sumNiu)
 
   window.onload = function () {
     var div1 = document.getElementById("div1");
